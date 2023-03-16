@@ -5,6 +5,10 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import bodyParser from 'body-parser';
 
+import authRoute from "./routes/auth.js";
+import usersRoute from "./routes/users.js";
+import userBooking from "./routes/userBooking.js"
+
 const app = express();
 dotenv.config();
 
@@ -24,8 +28,17 @@ mongoose.connection.on("disconnected", () => {
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+// parse application/json
 app.use(bodyParser.json());
 
+app.use("/api/auth", authRoute);
+app.use("/api/users", usersRoute);
+app.use("/api/booking", userBooking);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
