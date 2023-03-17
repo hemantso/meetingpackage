@@ -4,9 +4,10 @@ import User from "../models/User.js";
 export const getBookings = async (req,res,next)=>{
   const {id} = req.user;
   const user = await User.findById(id);
-
+  console.log(user)
   try {
-    const bookings = await Booking.find({email: user.email});
+    const bookings = await Booking.find({email: user.email.toString()});
+    console.log(bookings)
     res.status(200).json(bookings);
   } catch (err) {
     console.log(err);
