@@ -4,13 +4,15 @@ import User from "../models/User.js";
 export const getBookings = async (req,res,next)=>{
   const {id} = req.user;
   const user = await User.findById(id);
-  console.log(user)
+
   try {
-    const bookings = await Booking.find({email: user.email.toString()});
+    const bookings = await Booking.find({email: user.email});
     console.log(bookings)
     res.status(200).json(bookings);
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      error: err
+    });
   }
 }
 
@@ -19,7 +21,9 @@ export const getBooking = async (req,res,next)=>{
     const booking = await Booking.findById(req.params.id);
     res.status(200).json(booking);
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      error: err
+    });
   }
 }
 
@@ -32,7 +36,9 @@ export const createBooking = async (req,res,next)=>{
     await newBooking.save();
     res.status(200).json(newBooking);
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      error: err
+    });
   }
 }
 
@@ -45,7 +51,9 @@ export const updateBooking = async (req,res,next)=>{
     );
     res.status(200).json(updatedBooking);
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      error: err
+    });
   }
 }
 export const deleteBooking = async (req,res,next)=>{
@@ -53,7 +61,7 @@ export const deleteBooking = async (req,res,next)=>{
     await Booking.findByIdAndDelete(req.params.id);
     res.status(200).json("Booking has been deleted.");
   } catch (err) {
-    console.log(err);
+    res.status(500).json({error: err});
   }
 }
 

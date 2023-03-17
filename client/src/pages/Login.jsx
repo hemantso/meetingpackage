@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import Navbar from '../components/Navbar';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -30,8 +31,10 @@ const Login = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="d-flex align-items-center justify-content-center">
-      <div className="p-5 mt-5 w-40 border-2 rounded shadow text-primary">
+      <div className="p-5 mt-5 w-40 border-2 rounded shadow text-info">
         <h2 className="text-center fw-bold">Meeting Package</h2>
         <div className="form-outline mb-4">
           <label className="form-label fw-bold" for="form2Example1">
@@ -59,7 +62,7 @@ const Login = () => {
           type="button"
           disabled={loading}
           onClick={handleClick}
-          class="btn btn-primary btn-block mb-4 ps-5 pe-5 fw-bold"
+          class="btn btn-info text-white btn-block mb-4 ps-5 pe-5 fw-bold"
         >
           Sign in
         </button>
@@ -67,6 +70,7 @@ const Login = () => {
         {error && <span>{error.message}</span>}
       </div>
     </div>
+    </>
   );
 };
 

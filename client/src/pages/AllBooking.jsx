@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { BookingsContext } from '../context/BookingsContext';
-import Moment from 'moment';
+import Booking from './Booking';
 
 const AllBooking = () => {
   const { user } = useContext(AuthContext);
@@ -24,11 +24,11 @@ const AllBooking = () => {
     }
   }, [user]);
 
+  if(loading) return(<h1>Loading...</h1>);
+  if(error) return(<span>{error.message}</span>);
+  
   return (
     <div>
-      {loading ? (
-        <h1>Loading...</h1>
-      ) : (
         <table className="table table-hover table-primary">
           <thead>
             <tr>
@@ -41,26 +41,12 @@ const AllBooking = () => {
             </tr>
           </thead>
           <tbody>
-            {booking.length > 0 ? (
-              booking.map((a) => (
-                <tr key={a._id} className="table-primary">
-                  <th>{a.email}</th>
-                  <td>
-                    {Moment(a.dateCreatednew).format('MMMM Do YYYY h:mm a')}
-                  </td>
-                  <td>{a.venueName}</td>
-                  <td>{Moment(a.startDate).format('MMMM Do YYYY h:mm a')}</td>
-                  <td>{Moment(a.endDate).format('MMMM Do YYYY h:mm a')}</td>
-                  <td>{a.totalPrice}</td>
-                </tr>
-              ))
-            ) : (
+            {booking.length > 0 ? <Booking booking={booking} /> : (
               <h3>No booking available.....</h3>
             )}
           </tbody>
         </table>
-      )}
-      {error && <span>{error.message}</span>}
+      
     </div>
   );
 };
